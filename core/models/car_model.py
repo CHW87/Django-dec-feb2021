@@ -1,15 +1,14 @@
 from django.db import models
 
 
-# Create your models here.
 class CarModel(models.Model):
     class Meta:
         db_table = 'cars'
         verbose_name = 'car'
-    # brand = models.CharField(max_length=20, blank=True, unique=True, null=True)
+
     brand = models.CharField(max_length=20)
     model = models.CharField(max_length=20)
+    deleted = models.BooleanField(default=False)
     year = models.IntegerField()
-
-    # def __str__(self):
-    #     return self.brand
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
