@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'core.CustomUser'
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,6 +39,8 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'core',
+    'apps.user',
+    'apps.profile_',
     'apps.car'
 ]
 
