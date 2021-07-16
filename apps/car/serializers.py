@@ -16,3 +16,9 @@ class CarSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'user': {"write_only": True}
         }
+
+
+class CarByUserIdSerializer(CarSerializer):
+    class Meta:
+        model = CarModel
+        fields = ('id', 'brand', 'model', 'year')

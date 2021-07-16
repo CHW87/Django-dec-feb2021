@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from apps.profile_.serializers import ProfileSerializer
 from core.models import ProfileModel
 from apps.car.serializers import CarSerializer
+
 UserModel = get_user_model()
 
 
@@ -23,3 +24,16 @@ class UserSerializer(serializers.ModelSerializer):
         user = UserModel.objects.create_user(**validated_data)
         ProfileModel.objects.create(user=user, **profile)
         return user
+
+
+class UserUpdateSerializer(UserSerializer):
+    class Meta:
+        model = UserModel
+        fields = ('id', 'email', 'profile', 'cars')
+
+    def update(self, instance, validated_data):
+        profile = validated_data.pop('profile', None)
+        if profile:
+            ProfileSerializer().update(instance.profile, profile)
+        return super().update(instance, validated_data)
+

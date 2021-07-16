@@ -4,4 +4,5 @@ from .views import CarCreateListView, RetriaveDeleteView
 urlpatterns = [
     path('', CarCreateListView.as_view(), name='car_list_create'),
     path('/<int:id>', RetriaveDeleteView.as_view(), name='car_retriave_delete'),
+
 ]

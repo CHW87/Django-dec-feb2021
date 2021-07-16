@@ -1,106 +1,28 @@
-from rest_framework import status
 from rest_framework.generics import get_object_or_404, GenericAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework.response import Response
-# from rest_framework.mixins import ListModelMixin, CreateModelMixin
-from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
+
 from core.models import CarModel
 from .serializers import CarSerializer
+from core.paginaions.car_paninator import CarPaginator
+from core.filters.car_filter import CarFilter
 
 
-# class CarCreateListView(GenericAPIView, ListModelMixin, CreateModelMixin):
 class CarCreateListView(ListCreateAPIView):
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = CarSerializer
-
-    # queryset = CarModel.objects.all()
+    pagination_class = CarPaginator
+    filterset_class = CarFilter
 
     def get_queryset(self):
         qs = CarModel.objects.all()
         params = self.request.query_params
-        brand_start = params.get('brand_start', None)
-        if brand_start:
-            qs = qs.filter(brand__istartswith=brand_start)
+        user_id = params.get('userId', None)
+        if user_id:
+            qs = qs.filter(user_id=user_id)
         return qs
-
-    # def get(self, request, *args, **kwargs):
-    #     return super().list(request, *args, **kwargs)
-    #
-    # def post(self, request, *args, **kwargs):
-    #     return super().create(request, *args, **kwargs)
-
-    # def get(self, *args, **kwargs):
-    #     qs = CarModel.objects.all()
-    #     serializer = CarSerializer(qs, many=True)
-    #     return Response(serializer.data, status.HTTP_200_OK)
-
-    # def post(self, *args, **kwargs):
-    #     body = self.request.data
-    #     serializer = CarSerializer(data=body)
-    #     serializer.is_valid(raise_exception=True)
-    #     serializer.save()
-    #     return Response(serializer.data, status.HTTP_201_CREATED)
 
 
 class RetriaveDeleteView(RetrieveUpdateDestroyAPIView):
     serializer_class = CarSerializer
     queryset = CarModel
     lookup_field = 'id'
-
-    # def get_object(self):
-    #     return CarModel.objects.get(pk=3)
-
-#     def get(self, *args, **kwargs):
-#         pk = kwargs.get('pk')
-#         data = get_object_or_404(CarModel, pk=pk)
-#         # try:
-#         #     data = CarModel.objects.get(pk=pk)
-#         # except Exception as e:
-#         #     return Response('Not Found', status.HTTP_404_NOT_FOUND)
-#         serializer = CarSerializer(data)
-#         return Response(serializer.data, status.HTTP_200_OK)
-#
-#     def put(self, *args, **kwargs):
-#         pk = kwargs.get('pk')
-#         body = self.request.data
-#         try:
-#             data = CarModel.objects.get(pk=pk)
-#         except Exception:
-#             return Response('Not Found', status.HTTP_404_NOT_FOUND)
-#         serializer = CarSerializer(data, data=body)
-#         serializer.is_valid(raise_exception=True)
-#         # if not serializer.is_valid():
-#         #     return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
-#         serializer.save()
-#         return Response(serializer.data,status.HTTP_202_ACCEPTED)
-#
-#     def patch(self, *args, **kwargs):
-#         pk = kwargs.get('pk')
-#         body = self.request.data
-#         try:
-#             data = CarModel.objects.get(pk=pk)
-#         except Exception:
-#             return Response('Not Found', status.HTTP_404_NOT_FOUND)
-#         serializer = CarSerializer(data, data=body, partial=True)
-#         serializer.is_valid(raise_exception=True)
-#         serializer.save()
-#         return Response(serializer.data, status.HTTP_202_ACCEPTED)
-#
-#     def delete(self, *args, **kwargs):
-#         pk = kwargs.get('pk')
-#         try:
-#             data = CarModel.objects.get(pk=pk)
-#         except Exception as e:
-#             return Response('Not Found', status.HTTP_404_NOT_FOUND)
-#         data.delete()
-#         return Response('delete', status.HTTP_204_NO_CONTENT)
-#
-#
-# # class TestApi(APIView):
-# #     def get(self, *args, **kwargs):
-# #         qs = CarModel.objects.all()
-# #         lt = self.request.query_params.get('lt', None)
-# #         if lt:
-# #             qs = qs.filter(year__lt=lt)
-# #
-# #         serializer = CarSerializer(qs, many=True)
-# #
-# #         return Response(serializer.data)
