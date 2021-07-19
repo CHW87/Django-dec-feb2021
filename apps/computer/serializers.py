@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.core.validators import RegexValidator
-from computer.models import ComputerModel
+from core.models import ComputerModel
 
 
 class ComputerSerializer(serializers.ModelSerializer):

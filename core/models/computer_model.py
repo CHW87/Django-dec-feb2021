@@ -14,6 +14,5 @@ class ComputerModel(models.Model):
 	RAM = models.IntegerField()
 	CPU = models.FloatField()
 	display = models.IntegerField()
-
-	def __str__(self):
-		return self.brand
+	created_at = models.DateTimeField(auto_now_add=True)
+	updated_at = models.DateTimeField(auto_now=True)

@@ -1,7 +1,7 @@
 import datetime
 from rest_framework import serializers
 from django.core.validators import RegexValidator
-from .models import CarModel
+from core.models import CarModel
 
 
 class CarSerializer(serializers.ModelSerializer):
@@ -13,11 +13,3 @@ class CarSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarModel
         fields = '__all__'
-
-    def validate_year(self, year):
-        if year % 2 == 0:
-            raise serializers.ValidationError('only odd years')
-        return year
-    def validate(self, attrs):
-        print(attrs)
-        return attrs

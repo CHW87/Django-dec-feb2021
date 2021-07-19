@@ -3,6 +3,6 @@ from .views import ComputerCreateListView, RetrieveDeleteView
 
 urlpatterns = [
 		path('', ComputerCreateListView.as_view(), name='computer_list_create'),
-		path('/<int:pk>', RetrieveDeleteView.as_view(), name='computer_retrieve_delete')
+		path('/<int:id>', RetrieveDeleteView.as_view(), name='computer_retrieve_delete')
 ]
 
