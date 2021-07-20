@@ -1,5 +1,5 @@
 from rest_framework import status
-from rest_framework.generics import get_object_or_404,GenericAPIView,ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import get_object_or_404, GenericAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 from rest_framework.mixins import ListModelMixin,CreateModelMixin
 from rest_framework.views import APIView
